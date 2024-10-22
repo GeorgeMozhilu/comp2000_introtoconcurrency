@@ -25,7 +25,7 @@ public class ThreadState {
                 instance = new SydneyTime();
             return instance;
         }
-        public String getTime() {
+        public synchronized String getTime() {
             String ret;
             try {
                 try {

@@ -38,10 +38,10 @@ public class InconsistentState {
 	static InconsistentState mInstance = null;
 	static Thread mUpdateThread = null;
 	static Thread mValidateThread = null;
-	
-	private long mValue=0;
-	private long mValueTimesTwo=0;
-	
+
+	private long mValue = 0;
+	private long mValueTimesTwo = 0;
+
 	/**
 	 * Sets the state of our object.
 	 *  
@@ -52,22 +52,22 @@ public class InconsistentState {
 	 * 
 	 * @param pValue the value to update the current state with,
 	 */
-	public void setValues(long pValue) {
+	public synchronized void setValues(long pValue) {
 		mValue = pValue;
 		doPause(3);
 		mValueTimesTwo = pValue * 2;
 	}
-	
+
 	/**
 	 * Checks to see if the current state of our object is
 	 * consistent.
 	 * 
 	 * @return true if it is.
 	 */
-	public boolean isConsistent() {
+	public synchronized boolean isConsistent() {
 		return (mValue * 2 == mValueTimesTwo);
 	}
-	
+
 	/**
 	 * Utility routine - pauses our thread by calling
 	 * sleep and supressing any InterruptedException.
@@ -121,11 +121,12 @@ public class InconsistentState {
 			}
 		});
 
-
 		mUpdateThread.start();
 		mValidateThread.start();
 	}
-	
-
 
 }
+
+/* What is the fewest number of synchronized keywords required?
+ * Answer: 1
+ */
